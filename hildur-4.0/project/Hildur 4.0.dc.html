@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700;6..12,800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,500,0..1,0&display=block" rel="stylesheet">
+<style>
+html,body{margin:0;padding:0;background:#141C33;}
+*{box-sizing:border-box;}
+body{font-family:'Nunito Sans',system-ui,sans-serif;color:#1A2442;-webkit-font-smoothing:antialiased;}
+button{font-family:inherit;}
+a{color:#2F7D64;}
+a:hover{color:#1A2442;}
+textarea:focus,button:focus-visible{outline:2px solid #5CB89A;outline-offset:2px;}
+</style>
+</helmet>
+
+<sc-if value="{{ isLogin }}" hint-placeholder-val="{{ true }}">
+<div data-screen-label="00 Login" style="max-width:480px;margin:0 auto;min-height:100vh;background:#1A2442;color:#F6F4EF;display:flex;flex-direction:column;position:relative;overflow:hidden;">
+  <div style="position:absolute;left:-80px;top:-120px;width:340px;height:340px;border-radius:50%;background:radial-gradient(circle,rgba(92,184,154,.22),rgba(139,108,196,.10) 55%,transparent 70%);"></div>
+  <header style="position:relative;display:flex;align-items:center;justify-content:space-between;padding:16px 20px;">
+    <div style="display:flex;align-items:baseline;gap:8px;">
+      <span style="font-family:'Young Serif',serif;font-size:22px;">Hildur</span>
+      <span style="font-size:12px;font-weight:800;color:#1A2442;background:#ECE6F5;border-radius:999px;padding:3px 8px;">4.0</span>
+    </div>
+    <div style="display:flex;gap:2px;background:rgba(255,255,255,.08);border-radius:999px;padding:3px;">
+      <sc-for list="{{ staffLangs }}" as="l" hint-placeholder-count="2">
+        <button onClick="{{ l.pick }}" style="min-width:40px;height:36px;border:none;border-radius:999px;font-size:13px;font-weight:800;cursor:pointer;background:{{ l.bg }};color:{{ l.fg }};">{{ l.label }}</button>
+      </sc-for>
+    </div>
+  </header>
+  <div style="position:relative;padding:28px 24px 8px;display:flex;flex-direction:column;gap:16px;">
+    <div style="position:relative;width:72px;height:72px;border-radius:50%;padding:3px;background:conic-gradient(from 200deg,#5CB89A,#8B6CC4,#5CB89A);margin-top:14px;">
+      <div style="position:relative;width:100%;height:100%;border-radius:50%;background:#22305A;">
+        <div style="position:absolute;left:11px;right:11px;top:-11px;height:24px;border-radius:24px 24px 7px 7px;background:#B9774B;border-bottom:4px solid #E9D3B9;"></div>
+        <div style="position:absolute;left:50%;top:-19px;width:13px;height:13px;margin-left:-6.5px;border-radius:50%;background:#E9D3B9;"></div>
+        <div style="position:absolute;left:18px;top:28px;width:8px;height:9px;border-radius:50%;background:#F6F4EF;"></div>
+        <div style="position:absolute;right:18px;top:28px;width:8px;height:9px;border-radius:50%;background:#F6F4EF;"></div>
+        <div style="position:absolute;left:12px;top:40px;width:9px;height:6px;border-radius:50%;background:#E59AA6;opacity:.7;"></div>
+        <div style="position:absolute;right:12px;top:40px;width:9px;height:6px;border-radius:50%;background:#E59AA6;opacity:.7;"></div>
+        <div style="position:absolute;left:50%;top:40px;width:16px;height:8px;margin-left:-8px;border-bottom:2.5px solid #F6F4EF;border-radius:0 0 16px 16px;"></div>
+      </div>
+    </div>
+    <h1 style="font-family:'Young Serif',serif;font-weight:400;font-size:32px;line-height:1.15;margin:0;text-wrap:pretty;">{{ loginTitle }}</h1>
+    <p style="margin:0;font-size:17px;line-height:1.45;color:#C9D0E3;text-wrap:pretty;">{{ loginSub }}</p>
+  </div>
+  <div style="position:relative;flex:1;margin-top:20px;background:#F6F4EF;color:#1A2442;border-radius:28px 28px 0 0;padding:24px 20px 36px;display:flex;flex-direction:column;gap:16px;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;background:#EAE4D8;border-radius:18px;padding:4px;">
+      <sc-for list="{{ loginTabs }}" as="tb" hint-placeholder-count="2">
+        <button onClick="{{ tb.pick }}" style="height:48px;border:none;border-radius:14px;font-size:16px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;background:{{ tb.bg }};color:{{ tb.fg }};box-shadow:{{ tb.shadow }};">
+          <span style="font-family:'Material Symbols Rounded';font-size:20px;line-height:1;">{{ tb.icon }}</span>{{ tb.label }}
+        </button>
+      </sc-for>
+    </div>
+    <sc-for list="{{ loginFields }}" as="f" hint-placeholder-count="2">
+      <label style="display:flex;flex-direction:column;gap:8px;">
+        <span style="font-size:14px;font-weight:800;color:#4A5165;">{{ f.label }}</span>
+        <input value="{{ f.value }}" onChange="{{ f.onChange }}" type="{{ f.type }}" placeholder="{{ f.placeholder }}" autocomplete="off" inputmode="{{ f.mode }}" style="height:56px;border:1px solid #E0D8C9;border-radius:16px;padding:0 16px;font-family:inherit;font-size:18px;color:#1A2442;background:#fff;outline-color:#5CB89A;">
+      </label>
+    </sc-for>
+    <sc-if value="{{ hasLoginErr }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;gap:10px;align-items:center;background:#FBEDEA;color:#9A3F2F;border-radius:14px;padding:12px 14px;font-size:15px;font-weight:700;">
+        <span style="font-family:'Material Symbols Rounded';font-size:20px;line-height:1;">error</span>{{ loginErr }}
+      </div>
+    </sc-if>
+    <button onClick="{{ doLogin }}" style="height:58px;border:none;border-radius:18px;background:#1A2442;color:#F6F4EF;font-size:18px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;">
+      <span style="font-family:'Material Symbols Rounded';font-size:22px;line-height:1;">login</span>{{ loginBtn }}
+    </button>
+    <button onClick="{{ fillDemo }}" style="align-self:center;border:none;background:transparent;color:#6B7182;font-size:14px;font-weight:700;cursor:pointer;padding:8px;text-decoration:underline;">{{ demoHint }}</button>
+    <div style="display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:1.4;color:#6B7182;margin-top:auto;padding-top:8px;">
+      <span style="font-family:'Material Symbols Rounded';font-size:18px;line-height:1;color:#6E4A9E;">lock</span>{{ loginNote }}
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isGuest }}" hint-placeholder-val="{{ false }}">
+<div style="max-width:480px;margin:0 auto;min-height:100vh;background:#F6F4EF;position:relative;box-shadow:0 0 80px rgba(0,0,0,.35);">
+
+  <header style="position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 20px;background:rgba(246,244,239,.94);backdrop-filter:blur(10px);">
+    <div style="display:flex;align-items:center;gap:10px;min-width:0;flex:1;">
+      <sc-if value="{{ showBack }}" hint-placeholder-val="{{ false }}">
+        <button onClick="{{ goHome }}" aria-label="Back" style="width:44px;height:44px;border-radius:50%;border:1px solid #E5DFD3;background:#fff;color:#1A2442;display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none;">
+          <span style="font-family:'Material Symbols Rounded';font-size:22px;line-height:1;">arrow_back</span>
+        </button>
+      </sc-if>
+      <div style="display:flex;align-items:baseline;gap:8px;min-width:0;">
+        <span style="font-family:'Young Serif',serif;font-size:22px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding-right:3px;min-width:0;">{{ title }}</span>
+        <sc-if value="{{ showVersion }}" hint-placeholder-val="{{ true }}">
+          <span style="font-size:12px;font-weight:800;color:#6E4A9E;background:#ECE6F5;border-radius:999px;padding:3px 8px;">4.0</span>
+        </sc-if>
+      </div>
+    </div>
+    <div style="position:relative;flex:none;">
+      <div style="display:flex;gap:2px;background:#fff;border:1px solid #E5DFD3;border-radius:999px;padding:3px;">
+        <sc-for list="{{ langOpts }}" as="l" hint-placeholder-count="3">
+          <button onClick="{{ l.pick }}" title="{{ l.full }}" style="min-width:40px;height:36px;padding:0 10px;border:none;border-radius:999px;font-size:13px;font-weight:800;cursor:pointer;background:{{ l.bg }};color:{{ l.fg }};">{{ l.label }}</button>
+        </sc-for>
+      </div>
+      <sc-if value="{{ langMenu }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute;right:0;top:48px;width:200px;background:#fff;border:1px solid #E5DFD3;border-radius:18px;padding:8px;box-shadow:0 16px 40px -12px rgba(26,36,66,.35);display:flex;flex-direction:column;gap:2px;">
+          <sc-for list="{{ moreLangs }}" as="m" hint-placeholder-count="4">
+            <button onClick="{{ m.pick }}" style="display:flex;justify-content:space-between;align-items:center;padding:12px;border:none;background:transparent;border-radius:12px;font-size:15px;color:#1A2442;cursor:pointer;text-align:left;" style-hover="background:#F6F4EF;">
+              <span style="font-weight:700;">{{ m.label }}</span>
+              <span style="font-size:12px;color:#7A7F8E;">{{ m.note }}</span>
+            </button>
+          </sc-for>
+        </div>
+      </sc-if>
+    </div>
+  </header>
+
+  <div style="display:flex;gap:12px;align-items:flex-end;padding:6px 20px 14px;">
+    <button onClick="{{ tapAvatar }}" aria-label="Hildur" style="position:relative;width:60px;height:60px;flex:none;border:none;border-radius:50%;padding:3px;cursor:pointer;background:conic-gradient(from 200deg,#5CB89A,#8B6CC4,#5CB89A);margin-top:12px;">
+      <div style="position:relative;width:100%;height:100%;border-radius:50%;background:#22305A;">
+        <div style="position:absolute;left:9px;right:9px;top:-9px;height:20px;border-radius:20px 20px 6px 6px;background:#B9774B;border-bottom:4px solid #E9D3B9;"></div>
+        <div style="position:absolute;left:50%;top:-16px;width:11px;height:11px;margin-left:-5.5px;border-radius:50%;background:#E9D3B9;"></div>
+        <div style="position:absolute;left:15px;top:23px;width:7px;height:8px;border-radius:50%;background:#F6F4EF;"></div>
+        <div style="position:absolute;right:15px;top:23px;width:7px;height:8px;border-radius:50%;background:#F6F4EF;"></div>
+        <div style="position:absolute;left:10px;top:33px;width:8px;height:5px;border-radius:50%;background:#E59AA6;opacity:.7;"></div>
+        <div style="position:absolute;right:10px;top:33px;width:8px;height:5px;border-radius:50%;background:#E59AA6;opacity:.7;"></div>
+        <div style="position:absolute;left:50%;top:33px;width:14px;height:7px;margin-left:-7px;border-bottom:2.5px solid #F6F4EF;border-radius:0 0 14px 14px;"></div>
+      </div>
+    </button>
+    <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:6px;">
+      <sc-if value="{{ isRhyme }}" hint-placeholder-val="{{ false }}">
+        <span style="align-self:flex-start;font-size:12px;font-weight:800;color:#6E4A9E;background:#ECE6F5;border-radius:999px;padding:3px 10px;">{{ t.rhymeTag }}</span>
+      </sc-if>
+      <div style="background:#1A2442;color:#F6F4EF;border-radius:22px 22px 22px 6px;padding:14px 16px;font-size:16px;line-height:1.45;text-wrap:pretty;white-space:pre-line;">{{ line }}</div>
+    </div>
+  </div>
+
+  <main style="padding:6px 20px 48px;display:flex;flex-direction:column;gap:16px;">
+
+    <sc-if value="{{ isLoading }}" hint-placeholder-val="{{ false }}">
+      <div style="background:#fff;border:1px solid #ECE6DA;border-radius:24px;padding:48px 24px;display:flex;flex-direction:column;align-items:center;gap:18px;text-align:center;">
+        <div style="position:relative;width:72px;height:64px;">
+          <div style="position:absolute;left:7px;top:0;width:0;height:0;border-left:12px solid transparent;border-right:12px solid transparent;border-bottom:20px solid #D9894A;transform:rotate(-14deg);"></div>
+          <div style="position:absolute;right:7px;top:0;width:0;height:0;border-left:12px solid transparent;border-right:12px solid transparent;border-bottom:20px solid #D9894A;transform:rotate(14deg);"></div>
+          <div style="position:absolute;left:0;right:0;bottom:0;height:52px;border-radius:50%;background:#D9894A;">
+            <div style="position:absolute;left:19px;top:18px;width:7px;height:4px;border-top:2.5px solid #2A2016;border-radius:50% 50% 0 0;"></div>
+            <div style="position:absolute;right:19px;top:18px;width:7px;height:4px;border-top:2.5px solid #2A2016;border-radius:50% 50% 0 0;"></div>
+            <div style="position:absolute;left:50%;top:28px;width:8px;height:5px;margin-left:-4px;border-radius:50%;background:#F2B8B0;"></div>
+          </div>
+        </div>
+        <div style="font-size:17px;font-weight:700;">{{ loadingText }}</div>
+        <div style="font-size:14px;color:#7A7F8E;">{{ t.kjellNote }}</div>
+      </div>
+    </sc-if>
+
+    <!-- 1 WELCOME -->
+    <sc-if value="{{ is.welcome }}" hint-placeholder-val="{{ true }}">
+      <section data-screen-label="01 Welcome" style="display:flex;flex-direction:column;gap:16px;">
+        <div style="background:#1A2442;color:#F6F4EF;border-radius:26px;padding:22px;display:flex;flex-direction:column;gap:20px;">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+            <div style="display:flex;flex-direction:column;gap:4px;">
+              <span style="font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#A9B3CF;">{{ t.room }}</span>
+              <span style="font-family:'Young Serif',serif;font-size:34px;line-height:1;">{{ guestRoom }}</span>
+              <span style="font-size:14px;color:#C9D0E3;">{{ t.roomType }}</span>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px;">
+              <span style="font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#A9B3CF;">{{ t.stay }}</span>
+              <span style="font-family:'Young Serif',serif;font-size:24px;line-height:1.2;">{{ t.dates }}</span>
+              <span style="font-size:14px;color:#C9D0E3;">{{ t.nightsLabel }}</span>
+            </div>
+          </div>
+          <sc-if value="{{ notCheckedIn }}" hint-placeholder-val="{{ true }}">
+            <button onClick="{{ checkIn }}" style="height:56px;border:none;border-radius:18px;background:#7FD1B2;color:#10251E;font-size:18px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;" style-hover="background:#93DCC0;">
+              <span style="font-family:'Material Symbols Rounded';font-size:24px;line-height:1;">key</span>{{ t.checkIn }}
+            </button>
+          </sc-if>
+          <sc-if value="{{ checkedIn }}" hint-placeholder-val="{{ false }}">
+            <div style="height:56px;border-radius:18px;background:rgba(127,209,178,.14);color:#9EE0C6;font-size:17px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:10px;">
+              <span style="font-family:'Material Symbols Rounded';font-size:24px;line-height:1;font-variation-settings:'FILL' 1;">check_circle</span>{{ t.checkedInLabel }}
+            </div>
+          </sc-if>
+        </div>
+
+        <h2 style="font-family:'Young Serif',serif;font-weight:400;font-size:22px;margin:8px 2px 0;">{{ t.menuTitle }}</h2>
+        <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;">
+          <sc-for list="{{ menu }}" as="m" hint-placeholder-count="6">
+            <button onClick="{{ m.go }}" style="text-align:left;background:#fff;border:1px solid #ECE6DA;border-radius:22px;padding:16px;display:flex;flex-direction:column;gap:12px;cursor:pointer;color:#1A2442;min-height:128px;transition:transform .15s,box-shadow .15s;" style-hover="transform:translateY(-2px);box-shadow:0 12px 24px -16px rgba(26,36,66,.4);">
+              <span style="width:46px;height:46px;border-radius:15px;display:flex;align-items:center;justify-content:center;background:{{ m.tint }};color:{{ m.ink }};">
+                <span style="font-family:'Material Symbols Rounded';font-size:26px;line-height:1;">{{ m.icon }}</span>
+              </span>
+              <span style="display:flex;flex-direction:column;gap:2px;">
+                <span style="font-size:17px;font-weight:800;line-height:1.2;">{{ m.label }}</span>
+                <span style="font-size:14px;color:#6B7182;line-height:1.3;">{{ m.sub }}</span>
+              </span>
+            </button>
+          </sc-for>
+        </div>
+
+        <sc-if value="{{ checkedIn }}" hint-placeholder-val="{{ false }}">
+          <button onClick="{{ goCheckout }}" style="display:flex;align-items:center;gap:14px;background:#F1E4D3;border:none;border-radius:22px;padding:16px 18px;cursor:pointer;color:#1A2442;text-align:left;">
+            <span style="font-family:'Material Symbols Rounded';font-size:26px;line-height:1;color:#8A5432;">luggage</span>
+            <span style="flex:1;display:flex;flex-direction:column;gap:2px;">
+              <span style="font-size:17px;font-weight:800;">{{ t.checkout }}</span>
+              <span style="font-size:14px;color:#6B5A4A;">{{ t.checkoutSub }}</span>
+            </span>
+            <span style="font-family:'Material Symbols Rounded';font-size:22px;line-height:1;">chevron_right</span>
+          </button>
+        </sc-if>
+
+        <button onClick="{{ logout }}" style="align-self:center;margin-top:8px;border:none;background:transparent;color:#7A7F8E;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px;padding:10px;">
+          <span style="font-family:'Material Symbols Rounded';font-size:18px;line-height:1;">logout</span>{{ t.logout }}
+        </button>
+      </section>
+    </sc-if>
+
+    <!-- 2 SAUNA -->
+    <sc-if value="{{ is.sauna }}" hint-placeholder-val="{{ false }}">
+      <section data-screen-label="02 Sauna" style="display:flex;flex-direction:column;gap:14px;">
+        <sc-if value="{{ hasSauna }}" hint-placeholder-val="{{ false }}">
+          <button onClick="{{ goSaunaDone }}" style="display:flex;align-items:center;gap:12px;background:#E3F3EC;border:none;border-radius:18px;padding:14px 16px;color:#1F5A47;font-size:16px;font-weight:700;cursor:pointer;text-align:left;">
+            <span style="font-family:'Material Symbols Rounded';font-size:22px;line-height:1;font-variation-settings:'FILL' 1;">event_available</span>
+            <span style="flex:1;">{{ saunaBanner }}</span>
+            <span style="font-size:14px;text-decoration:underline;">{{ t.view }}</span>
+          </button>
+        </sc-if>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;padding:0 2px;">
+          <span style="font-family:'Young Serif',serif;font-size:20px;">{{ t.today }}</span>
+          <span style="font-size:14px;color:#7A7F8E;">{{ t.saunaPlace }}</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <sc-for list="{{ slots }}" as="s" hint-placeholder-count="6">
+            <button onClick="{{ s.pick }}" disabled="{{ s.full }}" style="display:flex;align-items:center;gap:16px;padding:16px 18px;border-radius:20px;text-align:left;border:2px solid {{ s.border }};background:{{ s.bg }};color:{{ s.fg }};cursor:{{ s.cursor }};">
+              <span style="font-family:'Young Serif',serif;font-size:24px;width:72px;flex:none;">{{ s.t }}</span>
+              <span style="flex:1;display:flex;flex-direction:column;gap:8px;min-width:0;">
+                <span style="font-size:16px;font-weight:700;">{{ s.label }}</span>
+                <span style="display:flex;gap:4px;">
+                  <sc-for list="{{ s.dots }}" as="d" hint-placeholder-count="8">
+                    <span style="width:14px;height:6px;border-radius:3px;background:{{ d }};"></span>
+                  </sc-for>
+                </span>
+              </span>
+              <span style="font-family:'Material Symbols Rounded';font-size:24px;line-height:1;">{{ s.icon }}</span>
+            </button>
+          </sc-for>
+        </div>
+      </section>
+    </sc-if>
+
+    <sc-if value="{{ is.saunaDone }}" hint-placeholder-val="{{ false }}">
+      <section data-screen-label="02b Sauna confirmed" style="display:flex;flex-direction:column;gap:14px;">
+        <div style="background:#fff;border:1px solid #ECE6DA;border-radius:26px;padding:28px 22px;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;">
+          <span style="width:56px;height:56px;border-radius:50%;background:#E3F3EC;color:#2F7D64;display:flex;align-items:center;justify-content:center;margin-bottom:8px;">
+            <span style="font-family:'Material Symbols Rounded';font-size:32px;line-height:1;">check</span>
+          </span>
+          <span style="font-size:13px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#2F7D64;">{{ t.booked }}</span>
+          <span style="font-family:'Young Serif',serif;font-size:56px;line-height:1.05;">{{ saunaTime }}</span>
+          <span style="font-size:17px;color:#4A5165;">{{ t.today }}</span>
+          <div style="width:100%;border-top:1px dashed #E0D8C9;margin:18px 0 6px;"></div>
+          <div style="width:100%;display:flex;flex-direction:column;gap:12px;text-align:left;font-size:16px;">
+            <div style="display:flex;gap:12px;align-items:center;"><span style="font-family:'Material Symbols Rounded';font-size:22px;line-height:1;color:#A86B43;">cabin</span>{{ t.saunaPlace }}</div>
+            <div style="display:flex;gap:12px;align-items:center;"><span style="font-family:'Material Symbols Rounded';font-size:22px;line-height:1;color:#A86B43;">dry_cleaning</span>{{ t.bring }}</div>
+          </div>
+        </div>
+        <button onClick="{{ cancelSauna }}" style="height:54px;border-radius:18px;border:2px solid #E3C9C2;background:transparent;color:#9A3F2F;font-size:17px;font-weight:800;cursor:pointer;">{{ t.cancelBooking }}</button>
+        <button onClick="{{ goHome }}" style="height:54px;border-radius:18px;border:none;background:#1A2442;color:#F6F4EF;font-size:17px;font-weight:800;cursor:pointer;">{{ t.backHome }}</button>
+      </section>
+    </sc-if>
+
+    <!-- 3 BREAKFAST -->
+    <sc-if value="{{ is.breakfast }}" hint-placeholder-val="{{ false }}">
+      <section data-screen-label="03 Breakfast" style="display:flex;flex-direction:column;gap:14px;">
+        <h3 style="font-family:'Young Serif',serif;font-weight:400;font-size:20px;margin:0 2px;">{{ t.menu }}</h3>
+        <div style="background:#fff;border:1px solid #ECE6DA;border-radius:22px;padding:6px;display:flex;flex-direction:column;">
+          <sc-for list="{{ bfItems }}" as="b" hint-placeholder-count="8">
+            <button onClick="{{ b.toggle }}" style="display:flex;align-items:center;gap:14px;padding:14px 12px;border:none;background:transparent;border-radius:16px;cursor:pointer;text-align:left;color:#1A2442;font-size:17px;" style-hover="background:#F8F5EF;">
+              <span style="width:28px;height:28px;flex:none;border-radius:9px;display:flex;align-items:center;justify-content:center;border:2px solid {{ b.boxBorder }};background:{{ b.boxBg }};color:#fff;">
+                <span style="font-family:'Material Symbols Rounded';font-size:20px;line-height:1;opacity:{{ b.checkOpacity }};">check</span>
+              </span>
+              <span style="flex:1;">{{ b.label }}</span>
+            </button>
+          </sc-for>
+        </div>
+        <h3 style="font-family:'Young Serif',serif;font-weight:400;font-size:20px;margin:8px 2px 0;">{{ t.where }}</h3>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+          <sc-for list="{{ bfModes }}" as="m" hint-placeholder-count="2">
+            <button onClick="{{ m.pick }}" style="display:flex;flex-direction:column;align-items:flex-start;gap:8px;padding:16px;border-radius:20px;cursor:pointer;text-align:left;font-size:16px;font-weight:700;border:2px solid {{ m.border }};background:{{ m.bg }};color:#1A2442;">
+              <span style="font-family:'Material Symbols Rounded';font-size:26px;line-height:1;color:#A86B43;">{{ m.icon }}</span>{{ m.label }}
+            </button>
+          </sc-for>
+        </div>
+        <h3 style="font-family:'Young Serif',serif;font-weight:400;font-size:20px;margin:8px 2px 0;">{{ t.time }}</h3>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;">
+          <sc-for list="{{ bfTimes }}" as="x" hint-placeholder-count="6">
+            <button onClick="{{ x.pick }}" style="height:46px;padding:0 18px;border-radius:999px;font-size:16px;font-weight:700;cursor:pointer;border:2px solid {{ x.border }};background:{{ x.bg }};color:{{ x.fg }};">{{ x.t }}</button>
+          </sc-for>
+        </div>
+        <button onClick="{{ orderBf }}" disabled="{{ bfEmpty }}" style="margin-top:10px;height:58px;border:none;border-radius:18px;font-size:18px;font-weight:800;cursor:{{ bfCursor }};background:{{ bfBtnBg }};color:{{ bfBtnFg }};">{{ bfBtnLabel }}</button>
+      </section>
+    </sc-if>
+
+    <sc-if value="{{ is.bfDone }}" hint-placeholder-val="{{ false }}">
+      <section data-screen-label="03b Breakfast confirmed" style="display:flex;flex-direction:column;gap:14px;">
+        <div style="background:#fff;border:1px solid #ECE6DA;border-radius:26px;padding:22px;display:flex;flex-direction:column;gap:16px;">
+          <div style="display:flex;align-items:center;gap:12px;">
+            <span style="width:46px;height:46px;border-radius:50%;background:#E3F3EC;color:#2F7D64;display:flex;align-items:center;justify-content:center;">
+              <span style="font-family:'Material Symbols Rounded';font-size:28px;line-height:1;">check</span>
+            </span>
+            <span style="font-family:'Young Serif',serif;font-size:22px;">{{ t.yourOrder }}</span>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;background:#F6F1E8;border-radius:16px;padding:14px;">
+            <div style="display:flex;flex-direction:column;gap:2px;"><span style="font-size:13px;color:#6B5A4A;font-weight:700;">{{ t.when }}</span><span style="font-size:17px;font-weight:800;">{{ bfWhen }}</span></div>
+            <div style="display:flex;flex-direction:column;gap:2px;"><span style="font-size:13px;color:#6B5A4A;font-weight:700;">{{ t.whereShort }}</span><span style="font-size:17px;font-weight:800;">{{ bfWhere }}</span></div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <sc-for list="{{ bfSummary }}" as="i" hint-placeholder-count="3">
+              <div style="display:flex;align-items:center;gap:10px;font-size:17px;">
+                <span style="width:6px;height:6px;border-radius:50%;background:#A86B43;flex:none;"></span>{{ i }}
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <button onClick="{{ goBreakfast }}" style="height:54px;border-radius:18px;border:2px solid #E0D8C9;background:transparent;color:#1A2442;font-size:17px;font-weight:800;cursor:pointer;">{{ t.edit }}</button>
+        <button onClick="{{ goHome }}" style="height:54px;border-radius:18px;border:none;background:#1A2442;color:#F6F4EF;font-size:17px;font-weight:800;cursor:pointer;">{{ t.backHome }}</button>
+      </section>
+    </sc-if>
+
+    <!-- 4 REPORT -->
+    <sc-if value="{{ is.report }}" hint-placeholder-val="{{ false }}">
+      <section data-screen-label="04 Report a problem" style="display:flex;flex-direction:column;gap:14px;">
+        <h3 style="font-family:'Young Serif',serif;font-weight:400;font-size:20px;margin:0 2px;">{{ t.category }}</h3>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+          <sc-for list="{{ cats }}" as="c" hint-placeholder-count="4">
+            <button onClick="{{ c.pick }}" style="display:flex;align-items:center;gap:10px;padding:16px;border-radius:18px;cursor:pointer;font-size:16px;font-weight:700;text-align:left;border:2px solid {{ c.border }};background:{{ c.bg }};color:#1A2442;">
+              <span style="font-family:'Material Symbols Rounded';font-size:24px;line-height:1;color:#A86B43;">{{ c.icon }}</span>{{ c.label }}
+            </button>
+          </sc-for>
+        </div>
+        <h3 style="font-family:'Young Serif',serif;font-weight:400;font-size:20px;margin:8px 2px 0;">{{ t.whatHappened }}</h3>
+        <textarea value="{{ text }}" onChange="{{ onText }}" placeholder="{{ t.placeholder }}" rows="4" maxlength="280" style="width:100%;border:1px solid #E0D8C9;border-radius:18px;padding:16px;font-family:inherit;font-size:17px;color:#1A2442;background:#fff;resize:vertical;line-height:1.4;"></textarea>
+        <sc-if value="{{ noPhoto }}" hint-placeholder-val="{{ true }}">
+          <button onClick="{{ togglePhoto }}" style="display:flex;align-items:center;justify-content:center;gap:10px;height:60px;border-radius:18px;border:2px dashed #D6CCBA;background:transparent;color:#6B5A4A;font-size:16px;font-weight:700;cursor:pointer;">
+            <span style="font-family:'Material Symbols Rounded';font-size:24px;line-height:1;">add_a_photo</span>{{ t.addPhoto }}
+          </button>
+        </sc-if>
+        <sc-if value="{{ photo }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;align-items:center;gap:12px;background:#fff;border:1px solid #E0D8C9;border-radius:18px;padding:10px;">
+            <div style="width:56px;height:56px;border-radius:12px;background:repeating-linear-gradient(135deg,#EFE7DA 0 6px,#E6DCCB 6px 12px);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:9px;color:#8A7A66;">photo</div>
+            <span style="flex:1;font-family:'JetBrains Mono',monospace;font-size:14px;">foto.jpg</span>
+            <button onClick="{{ togglePhoto }}" aria-label="Remove" style="width:44px;height:44px;border:none;background:transparent;cursor:pointer;color:#6B7182;"><span style="font-family:'Material Symbols Rounded';font-size:22px;line-height:1;">close</span></button>
+          </div>
+        </sc-if>
+        <button onClick="{{ sendReport }}" disabled="{{ textEmpty }}" style="margin-top:6px;height:58px;border:none;border-radius:18px;font-size:18px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:10px;cursor:{{ sendCursor }};background:{{ sendBg }};color:{{ sendFg }};">
+          <span style="font-family:'Material Symbols Rounded';font-size:22px;line-height:1;">send</span>{{ t.send }}
+        </button>
+      </section>
+    </sc-if>
+
+    <sc-if value="{{ is.reportDone }}" hint-placeholder-val="{{ false }}">
+      <section data-screen-label="04b Report status" style="display:flex;flex-direction:column;gap:14px;">
+        <div style="background:#fff;border:1px solid #ECE6DA;border-radius:26px;padding:22px;display:flex;flex-direction:column;gap:18px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;">
+            <span style="font-family:'Young Serif',serif;font-size:22px;">{{ t.caseNo }}</span>
+            <span style="font-size:14px;font-weight:700;color:#6B5A4A;background:#F1E4D3;border-radius:999px;padding:5px 12px;">{{ reportCat }}</span>
+          </div>
+          <p style="margin:0;font-size:17px;line-height:1.45;color:#3A4258;background:#F8F5EF;border-radius:14px;padding:14px;">“{{ reportText }}”</p>
+          <div style="display:flex;flex-direction:column;gap:0;">
+            <sc-for list="{{ steps }}" as="st" hint-placeholder-count="3">
+              <div style="display:flex;gap:14px;align-items:flex-start;">
+                <div style="display:flex;flex-direction:column;align-items:center;flex:none;">
+                  <span style="width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:{{ st.dot }};color:#fff;">
+                    <span style="font-family:'Material Symbols Rounded';font-size:18px;line-height:1;opacity:{{ st.checkOpacity }};">check</span>
+                  </span>
+                  <span style="width:2px;height:26px;background:{{ st.lineColor }};"></span>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:2px;padding-top:2px;">
+                  <span style="font-size:17px;font-weight:800;color:{{ st.fg }};">{{ st.label }}</span>
+                  <span style="font-size:14px;color:#7A7F8E;">{{ st.time }}</span>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <button onClick="{{ newReport }}" style="height:54px;border-radius:18px;border:2px solid #E0D8C9;background:transparent;color:#1A2442;font-size:17px;font-weight:800;cursor:pointer;">{{ t.reportAnother }}</button>
+        <button onClick="{{ goHome }}" style="height:54px;border-radius:18px;border:none;background:#1A2442;color:#F6F4EF;font-size:17px;font-weight:800;cursor:pointer;">{{ t.backHome }}</button>
+      </section>
+    </sc-if>
+
+    <!-- 5 AURORA -->
+    <sc-if value="{{ is.aurora }}" hint-placeholder-val="{{ false }}">
+      <section data-screen-label="05 Northern lights" style="display:flex;flex-direction:column;gap:14px;">
+        <button onClick="{{ toggleNotify }}" role="switch" aria-checked="{{ notify }}" style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #ECE6DA;border-radius:22px;padding:18px;cursor:pointer;text-align:left;color:#1A2442;">
+          <span style="font-family:'Material Symbols Rounded';font-size:26px;line-height:1;color:#6E4A9E;">{{ notifyIcon }}</span>
+          <span style="flex:1;display:flex;flex-direction:column;gap:2px;">
+            <span style="font-size:18px;font-weight:800;">{{ t.notify }}</span>
+            <span style="font-size:14px;color:#6B7182;">{{ notifySub }}</span>
+          </span>
+          <span style="width:58px;height:34px;border-radius:999px;padding:3px;flex:none;transition:background .2s;background:{{ trackBg }};">
+            <span style="display:block;width:28px;height:28px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:transform .2s;transform:translateX({{ knobX }});"></span>
+          </span>
+        </button>
+        <div style="background:#1A2442;color:#F6F4EF;border-radius:26px;padding:24px 22px;display:flex;flex-direction:column;gap:18px;overflow:hidden;position:relative;">
+          <div style="position:absolute;right:-60px;top:-80px;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(92,184,154,.28),rgba(139,108,196,.12) 55%,transparent 70%);"></div>
+          <span style="position:relative;font-size:13px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#A9B3CF;">{{ t.chanceTonight }}</span>
+          <div style="position:relative;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;">
+            <span style="font-family:'Young Serif',serif;font-size:48px;line-height:1;">{{ t.low }}</span>
+            <span style="font-size:18px;color:#C9D0E3;">{{ t.cloudy }}</span>
+          </div>
+          <p style="position:relative;margin:0;font-size:17px;line-height:1.45;color:#E6EAF4;">{{ t.chanceText }}</p>
+          <div style="position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;">
+            <sc-for list="{{ forecast }}" as="f" hint-placeholder-count="3">
+              <div style="background:rgba(255,255,255,.07);border-radius:16px;padding:12px;display:flex;flex-direction:column;gap:4px;">
+                <span style="font-family:'Material Symbols Rounded';font-size:22px;line-height:1;color:#7FD1B2;">{{ f.icon }}</span>
+                <span style="font-size:12px;color:#A9B3CF;font-weight:700;">{{ f.k }}</span>
+                <span style="font-size:15px;font-weight:800;">{{ f.v }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="display:flex;gap:12px;align-items:center;background:#F1E4D3;border-radius:20px;padding:16px;font-size:16px;line-height:1.4;color:#4A3A2C;">
+          <span style="font-family:'Material Symbols Rounded';font-size:24px;line-height:1;color:#8A5432;">location_on</span>{{ t.spot }}
+        </div>
+      </section>
+    </sc-if>
+
+    <!-- 6 WIFI -->
+    <sc-if value="{{ is.wifi }}" hint-placeholder-val="{{ false }}">
+      <section data-screen-label="06 Wi-Fi" style="display:flex;flex-direction:column;gap:14px;">
+        <sc-if value="{{ notCheckedIn }}" hint-placeholder-val="{{ false }}">
+          <div style="background:#fff;border:1px solid #ECE6DA;border-radius:26px;padding:40px 24px;display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center;">
+            <div style="position:relative;width:72px;height:64px;">
+              <div style="position:absolute;left:7px;top:0;width:0;height:0;border-left:12px solid transparent;border-right:12px solid transparent;border-bottom:20px solid #D9894A;transform:rotate(-14deg);"></div>
+              <div style="position:absolute;right:7px;top:0;width:0;height:0;border-left:12px solid transparent;border-right:12px solid transparent;border-bottom:20px solid #D9894A;transform:rotate(14deg);"></div>
+              <div style="position:absolute;left:0;right:0;bottom:0;height:52px;border-radius:50%;background:#D9894A;">
+                <div style="position:absolute;left:18px;top:16px;width:7px;height:9px;border-radius:50%;background:#2A2016;"></div>
+                <div style="position:absolute;right:18px;top:16px;width:7px;height:9px;border-radius:50%;background:#2A2016;"></div>
+                <div style="position:absolute;left:50%;top:29px;width:8px;height:5px;margin-left:-4px;border-radius:50%;background:#F2B8B0;"></div>
+              </div>
+            </div>
+            <span style="font-family:'Young Serif',serif;font-size:24px;">{{ t.checkInFirst }}</span>
+            <span style="font-size:16px;color:#6B7182;line-height:1.45;max-width:280px;">{{ t.kjellGuards }}</span>
+            <button onClick="{{ goHome }}" style="margin-top:8px;height:52px;padding:0 24px;border:none;border-radius:16px;background:#1A2442;color:#F6F4EF;font-size:16px;font-weight:800;cursor:pointer;">{{ t.toCheckIn }}</button>
+          </div>
+        </sc-if>
+        <sc-if value="{{ checkedIn }}" hint-placeholder-val="{{ false }}">
+          <div style="background:#fff;border:1px solid #ECE6DA;border-radius:26px;padding:22px;display:flex;flex-direction:column;gap:18px;">
+            <div style="display:flex;flex-direction:column;gap:4px;">
+              <span style="font-size:13px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#7A7F8E;">{{ t.network }}</span>
+              <span style="font-size:20px;font-weight:800;">Hildur-Gast</span>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:8px;">
+              <span style="font-size:13px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#7A7F8E;">{{ t.password }}</span>
+              <div style="background:#F6F1E8;border-radius:16px;padding:16px;font-family:'JetBrains Mono',monospace;font-size:20px;letter-spacing:.02em;word-break:break-all;">Norrsken-Kjell-12</div>
+            </div>
+            <button onClick="{{ copyPw }}" style="height:54px;border:none;border-radius:16px;font-size:17px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;background:{{ copyBg }};color:{{ copyFg }};">
+              <span style="font-family:'Material Symbols Rounded';font-size:22px;line-height:1;">{{ copyIcon }}</span>{{ copyLabel }}
+            </button>
+            <div style="display:flex;align-items:center;gap:8px;font-size:15px;color:#6E4A9E;font-weight:700;">
+              <span style="font-family:'Material Symbols Rounded';font-size:20px;line-height:1;">visibility_lock</span>{{ t.onlyYou }}
+            </div>
+          </div>
+        </sc-if>
+      </section>
+    </sc-if>
+
+    <!-- 7 MY DATA -->
+    <sc-if value="{{ is.data }}" hint-placeholder-val="{{ false }}">
+      <section data-screen-label="07 My data" style="display:flex;flex-direction:column;gap:12px;">
+        <h3 style="font-family:'Young Serif',serif;font-weight:400;font-size:22px;margin:0 2px 4px;">{{ t.promise }}</h3>
+        <sc-for list="{{ promises }}" as="p" hint-placeholder-count="4">
+          <div style="display:flex;gap:14px;align-items:flex-start;background:#fff;border:1px solid #ECE6DA;border-radius:22px;padding:18px;">
+            <span style="width:42px;height:42px;flex:none;border-radius:14px;background:#ECE6F5;color:#6E4A9E;display:flex;align-items:center;justify-content:center;">
+              <span style="font-family:'Material Symbols Rounded';font-size:24px;line-height:1;">{{ p.icon }}</span>
+            </span>
+            <span style="font-size:17px;line-height:1.45;padding-top:2px;text-wrap:pretty;">{{ p.text }}</span>
+          </div>
+        </sc-for>
+        <div style="display:flex;gap:16px;align-items:center;background:#F1E4D3;border-radius:22px;padding:18px;">
+          <div style="position:relative;width:64px;height:58px;flex:none;">
+            <div style="position:absolute;left:6px;top:0;width:0;height:0;border-left:11px solid transparent;border-right:11px solid transparent;border-bottom:18px solid #D9894A;transform:rotate(-14deg);"></div>
+            <div style="position:absolute;right:6px;top:0;width:0;height:0;border-left:11px solid transparent;border-right:11px solid transparent;border-bottom:18px solid #D9894A;transform:rotate(14deg);"></div>
+            <div style="position:absolute;left:0;right:0;bottom:0;height:47px;border-radius:50%;background:#D9894A;">
+              <div style="position:absolute;left:16px;top:15px;width:6px;height:8px;border-radius:50%;background:#2A2016;"></div>
+              <div style="position:absolute;right:16px;top:15px;width:6px;height:8px;border-radius:50%;background:#2A2016;"></div>
+              <div style="position:absolute;left:50%;top:26px;width:7px;height:4px;margin-left:-3.5px;border-radius:50%;background:#F2B8B0;"></div>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px;min-width:0;">
+            <span style="font-family:'Young Serif',serif;font-size:20px;">{{ t.kjellName }}</span>
+            <span style="align-self:flex-start;font-size:13px;font-weight:800;color:#1A2442;background:#fff;border-radius:999px;padding:6px 12px;line-height:1.3;">{{ t.kjellRole }}</span>
+          </div>
+        </div>
+        <button onClick="{{ openSheet }}" style="margin-top:8px;height:56px;border:none;border-radius:18px;background:#1A2442;color:#F6F4EF;font-size:17px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;">
+          <span style="font-family:'Material Symbols Rounded';font-size:22px;line-height:1;">folder_managed</span>{{ t.dataBtn }}
+        </button>
+      </section>
+    </sc-if>
+
+    <!-- 8 CHECKOUT -->
+    <sc-if value="{{ is.checkout }}" hint-placeholder-val="{{ false }}">
+      <section data-screen-label="08 Check-out" style="display:flex;flex-direction:column;gap:14px;">
+        <sc-if value="{{ notCheckedOut }}" hint-placeholder-val="{{ true }}">
+          <div style="background:#fff;border:1px solid #ECE6DA;border-radius:26px;padding:22px;display:flex;flex-direction:column;gap:4px;">
+            <span style="font-family:'Young Serif',serif;font-size:22px;margin-bottom:8px;">{{ t.yourStay }}</span>
+            <sc-for list="{{ summary }}" as="r" hint-placeholder-count="5">
+              <div style="display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid #F0EBE1;font-size:17px;">
+                <span style="color:#6B7182;">{{ r.k }}</span><span style="font-weight:800;text-align:right;">{{ r.v }}</span>
+              </div>
+            </sc-for>
+          </div>
+          <div style="background:#fff;border:1px solid #ECE6DA;border-radius:26px;padding:22px;display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center;">
+            <span style="font-size:18px;font-weight:800;">{{ t.howWas }}</span>
+            <div style="display:flex;gap:4px;">
+              <sc-for list="{{ stars }}" as="st" hint-placeholder-count="5">
+                <button onClick="{{ st.pick }}" aria-label="{{ st.n }}" style="width:52px;height:52px;border:none;background:transparent;cursor:pointer;padding:0;color:{{ st.color }};">
+                  <span style="font-family:'Material Symbols Rounded';font-size:40px;line-height:1;font-variation-settings:'FILL' 1;">star</span>
+                </button>
+              </sc-for>
+            </div>
+            <span style="font-size:15px;color:#6B7182;min-height:20px;">{{ ratingText }}</span>
+          </div>
+          <button onClick="{{ doCheckout }}" style="height:58px;border:none;border-radius:18px;background:#1A2442;color:#F6F4EF;font-size:18px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;">
+            <span style="font-family:'Material Symbols Rounded';font-size:22px;line-height:1;">logout</span>{{ t.checkoutBtn }}
+          </button>
+        </sc-if>
+        <sc-if value="{{ checkedOut }}" hint-placeholder-val="{{ false }}">
+          <div style="background:#1A2442;color:#F6F4EF;border-radius:26px;padding:40px 24px;display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center;">
+            <span style="font-family:'Material Symbols Rounded';font-size:44px;line-height:1;color:#7FD1B2;">nights_stay</span>
+            <span style="font-family:'Young Serif',serif;font-size:28px;">{{ t.checkedOutTitle }}</span>
+            <span style="font-size:16px;color:#C9D0E3;line-height:1.45;max-width:300px;">{{ t.checkedOutText }}</span>
+          </div>
+          <button onClick="{{ restart }}" style="height:54px;border-radius:18px;border:2px solid #E0D8C9;background:transparent;color:#1A2442;font-size:17px;font-weight:800;cursor:pointer;">{{ t.restart }}</button>
+        </sc-if>
+      </section>
+    </sc-if>
+  </main>
+
+  <sc-if value="{{ sheetOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeSheet }}" style="position:fixed;inset:0;background:rgba(20,28,51,.45);z-index:30;"></div>
+    <div style="position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;z-index:31;background:#F6F4EF;border-radius:28px 28px 0 0;padding:12px 20px 28px;display:flex;flex-direction:column;gap:12px;">
+      <span style="align-self:center;width:44px;height:5px;border-radius:3px;background:#D6CCBA;margin-bottom:6px;"></span>
+      <span style="font-family:'Young Serif',serif;font-size:22px;">{{ t.yourData }}</span>
+      <button onClick="{{ downloadData }}" style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #ECE6DA;border-radius:20px;padding:16px;cursor:pointer;text-align:left;color:#1A2442;">
+        <span style="font-family:'Material Symbols Rounded';font-size:26px;line-height:1;color:#2F7D64;">download</span>
+        <span style="display:flex;flex-direction:column;gap:2px;"><span style="font-size:17px;font-weight:800;">{{ t.download }}</span><span style="font-size:14px;color:#6B7182;">{{ t.downloadSub }}</span></span>
+      </button>
+      <button onClick="{{ deleteData }}" style="display:flex;align-items:center;gap:14px;border-radius:20px;padding:16px;cursor:pointer;text-align:left;border:1px solid {{ delBorder }};background:{{ delBg }};color:#1A2442;">
+        <span style="font-family:'Material Symbols Rounded';font-size:26px;line-height:1;color:#9A3F2F;">delete</span>
+        <span style="display:flex;flex-direction:column;gap:2px;"><span style="font-size:17px;font-weight:800;color:#9A3F2F;">{{ delLabel }}</span><span style="font-size:14px;color:#6B7182;">{{ t.deleteSub }}</span></span>
+      </button>
+      <button onClick="{{ closeSheet }}" style="height:50px;border:none;background:transparent;color:#6B7182;font-size:16px;font-weight:700;cursor:pointer;">{{ t.close }}</button>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;left:50%;bottom:24px;transform:translateX(-50%);width:calc(100% - 40px);max-width:440px;z-index:40;background:#1A2442;color:#F6F4EF;border-radius:18px;padding:14px 18px;font-size:16px;font-weight:700;display:flex;align-items:center;gap:10px;box-shadow:0 16px 40px -12px rgba(0,0,0,.5);">
+      <span style="font-family:'Material Symbols Rounded';font-size:22px;line-height:1;color:#7FD1B2;">check_circle</span>{{ toast }}
+    </div>
+  </sc-if>
+</div>
+</sc-if>
+
+<!-- STAFF VIEW -->
+<sc-if value="{{ isStaff }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="09 Staff view" style="min-height:100vh;background:#EFECE5;">
+  <header style="background:#1A2442;color:#F6F4EF;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+    <div style="display:flex;align-items:baseline;gap:10px;">
+      <span style="font-family:'Young Serif',serif;font-size:22px;">Hildur</span>
+      <span style="font-size:12px;font-weight:800;color:#1A2442;background:#ECE6F5;border-radius:999px;padding:3px 8px;">4.0</span>
+      <span style="font-size:15px;color:#A9B3CF;">{{ t.staffTitle }}</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+      <span style="font-size:14px;color:#C9D0E3;">{{ t.signedIn }}</span>
+      <div style="display:flex;gap:2px;background:rgba(255,255,255,.08);border-radius:999px;padding:3px;">
+        <sc-for list="{{ staffLangs }}" as="l" hint-placeholder-count="2">
+          <button onClick="{{ l.pick }}" style="min-width:40px;height:34px;border:none;border-radius:999px;font-size:13px;font-weight:800;cursor:pointer;background:{{ l.bg }};color:{{ l.fg }};">{{ l.label }}</button>
+        </sc-for>
+      </div>
+      <button onClick="{{ logout }}" style="height:40px;padding:0 16px;border:none;border-radius:999px;background:#7FD1B2;color:#10251E;font-size:14px;font-weight:800;cursor:pointer;display:flex;align-items:center;gap:6px;">
+        <span style="font-family:'Material Symbols Rounded';font-size:18px;line-height:1;">logout</span>{{ t.logout }}
+      </button>
+    </div>
+  </header>
+  <main style="max-width:1200px;margin:0 auto;padding:24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,360px),1fr));gap:20px;align-items:start;">
+    <div style="background:#fff;border-radius:24px;padding:22px;display:flex;flex-direction:column;gap:14px;">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;">
+        <span style="font-family:'Young Serif',serif;font-size:20px;">{{ t.staffSauna }}</span>
+        <span style="font-size:14px;color:#7A7F8E;font-weight:700;">{{ saunaTotal }}</span>
+      </div>
+      <sc-for list="{{ staffSlots }}" as="s" hint-placeholder-count="8">
+        <div style="display:grid;grid-template-columns:56px minmax(0,1fr) 44px;gap:12px;align-items:center;font-size:15px;">
+          <span style="font-weight:800;">{{ s.t }}</span>
+          <div style="display:flex;flex-direction:column;gap:4px;">
+            <div style="height:10px;border-radius:5px;background:#F0EBE1;overflow:hidden;"><div style="height:100%;border-radius:5px;width:{{ s.pct }};background:{{ s.color }};"></div></div>
+            <sc-if value="{{ s.mine }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#2F7D64;font-weight:700;">{{ s.note }}</span></sc-if>
+          </div>
+          <span style="text-align:right;font-weight:700;color:{{ s.countColor }};">{{ s.count }}</span>
+        </div>
+      </sc-for>
+    </div>
+    <div style="background:#fff;border-radius:24px;padding:22px;display:flex;flex-direction:column;gap:12px;">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;">
+        <span style="font-family:'Young Serif',serif;font-size:20px;">{{ t.staffReports }}</span>
+        <span style="font-size:13px;color:#7A7F8E;">{{ t.tapStatus }}</span>
+      </div>
+      <sc-for list="{{ staffReports }}" as="r" hint-placeholder-count="3">
+        <div style="display:flex;gap:12px;align-items:flex-start;padding:12px;border-radius:16px;background:#F8F5EF;">
+          <span style="font-family:'Material Symbols Rounded';font-size:22px;line-height:1;color:#A86B43;margin-top:2px;">{{ r.icon }}</span>
+          <div style="flex:1;display:flex;flex-direction:column;gap:2px;min-width:0;">
+            <span style="font-size:13px;color:#7A7F8E;font-weight:700;">{{ r.meta }}</span>
+            <span style="font-size:15px;line-height:1.35;">{{ r.text }}</span>
+          </div>
+          <button onClick="{{ r.cycle }}" style="flex:none;height:32px;padding:0 12px;border:none;border-radius:999px;font-size:13px;font-weight:800;cursor:pointer;background:{{ r.bg }};color:{{ r.fg }};">{{ r.status }}</button>
+        </div>
+      </sc-for>
+    </div>
+    <div style="grid-column:1/-1;background:#fff;border-radius:24px;padding:22px;display:flex;flex-direction:column;gap:6px;">
+      <span style="font-family:'Young Serif',serif;font-size:20px;margin-bottom:8px;">{{ t.staffLog }}</span>
+      <sc-for list="{{ log }}" as="e" hint-placeholder-count="5">
+        <div style="display:grid;grid-template-columns:56px 120px minmax(0,1fr);gap:12px;padding:10px 0;border-bottom:1px solid #F0EBE1;font-size:15px;align-items:baseline;">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#7A7F8E;">{{ e.time }}</span>
+          <span style="font-weight:800;">{{ e.who }}</span>
+          <span style="color:#3A4258;">{{ e.what }}</span>
+        </div>
+      </sc-for>
+    </div>
+  </main>
+</div>
+</sc-if>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;startView&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;login&quot;,&quot;guest&quot;,&quot;staff&quot;],&quot;default&quot;:&quot;login&quot;,&quot;tsType&quot;:&quot;'login'|'guest'|'staff'&quot;},&quot;defaultLang&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;sv&quot;,&quot;en&quot;],&quot;default&quot;:&quot;sv&quot;,&quot;tsType&quot;:&quot;'sv'|'en'&quot;},&quot;startCheckedIn&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;}}">
+const SV = {
+  hello: 'Välkommen, {name}! Jag är Hildur. Jag svarar på riktigt den här gången – inga rim. (Nästan.)',
+  helloIn: 'Du är incheckad! Rummet är varmt och Kjell har lovat att inte sitta på kudden.',
+  room: 'Rum', roomType: 'Fjällutsikt', stay: 'Vistelse', dates: '2–5 okt', nightsLabel: '3 nätter',
+  checkIn: 'Checka in', checkedInLabel: 'Incheckad', loadingCheckIn: 'Kjell hämtar din nyckel …', kjellNote: 'Han är snabb när han vill.',
+  menuTitle: 'Vad behöver du?',
+  mSauna: 'Bastu', mBreakfast: 'Frukost', mReport: 'Rapportera problem', mAurora: 'Norrsken', mWifi: 'Wi-Fi', mData: 'Mina data',
+  sSauna: 'Boka en tid', sSaunaBooked: 'Bokad {t}', sBreakfast: 'Till rummet eller matsalen', sBreakfastDone: 'Beställd till {t}',
+  sReport: 'Vi fixar det', sReportDone: 'Ärende #214 skickat', sAurora: 'Ikväll: Låg', sAuroraOn: 'Bevakning på', sWifiLocked: 'Efter incheckning', sWifi: 'Visa lösenord', sData: 'Hildurs löfte',
+  checkout: 'Checka ut', checkoutSub: 'Sammanfattning och ett hej då', staffLink: 'Personalvy',
+  saunaLine: 'Vedeldad, 80 grader och utsikt över sjön. Välj en tid – handduk ingår.',
+  saunaCancelled: 'Avbokat! Platsen går till nästa frusna gäst.',
+  saunaDoneLine: 'Klart! Kom fem minuter innan, så hinner du duscha. Bastun väntar inte, men den förlåter.',
+  saunaBanner: 'Du har en tid: {t}', view: 'Visa', today: 'Idag, fredag 2 okt', saunaPlace: 'Bastustugan vid sjön',
+  left: '{n} av 8 kvar', full: 'Fullt – 8 av 8', yours: 'Din tid', booked: 'Bokad', bring: 'Ta med badkläder. Handduk finns.',
+  cancelBooking: 'Avboka', backHome: 'Till startsidan',
+  bfLine: 'Frukost serveras 07–10. Kryssa i det du vill ha, så sköter jag resten.',
+  bfDoneLine: 'Beställt! Kaffet är varmt när du vaknar. Löfte.',
+  menu: 'Meny', where: 'Var vill du äta?', time: 'Tid imorgon', room2: 'Leverans till rummet', dining: 'I matsalen',
+  orderBf: 'Beställ frukost', pickOne: 'Välj minst en sak', yourOrder: 'Din beställning', when: 'När', whereShort: 'Var', tomorrow: 'Imorgon', edit: 'Ändra beställning',
+  items: { rye: 'Rågbröd med smör och ost', salmon: 'Gravad lax med senapssås', fil: 'Filmjölk med lingon', egg: 'Kokt ägg', waffle: 'Våfflor med hjortronsylt', coffee: 'Kaffe', tea: 'Te', juice: 'Äppeljuice' },
+  repLine: 'Något som krånglar? Berätta kort, så skickar jag det direkt till personalen.',
+  repDoneLine: 'Tack! Personalen har fått ditt ärende. Jag håller koll åt dig.',
+  category: 'Kategori', cRoom: 'Rummet', cWifi: 'Wi-Fi', cSauna: 'Bastun', cOther: 'Annat',
+  whatHappened: 'Vad har hänt?', placeholder: 'T.ex. elementet är kallt', addPhoto: 'Lägg till foto (valfritt)', send: 'Skicka',
+  caseNo: 'Ärende #214', st0: 'Mottaget – personalen meddelad', st1: 'Lisa är på väg', st2: 'Åtgärdat', pending: 'Väntar', reportAnother: 'Rapportera något annat',
+  auroraLine: 'Jag håller utkik åt dig. Om himlen tänds, knackar jag på – digitalt.',
+  notify: 'Meddela mig', notifyOff: 'Notis när chansen är hög, 18–02', notifyOn: 'På – jag säger till!',
+  chanceTonight: 'Chans ikväll', low: 'Låg', cloudy: 'molnigt',
+  chanceText: 'Chans ikväll: Låg – molnigt. Vi väcker dig inte för regn.',
+  fKp: 'Prognos', fKpV: 'Kp 2 · svag', fCloud: 'Moln', fDark: 'Mörkt',
+  spot: 'Bästa platsen: bryggan, två minuter från bastun.',
+  wifiLine: 'Här är nätet. Lösenordet visas bara här, och bara för dig.',
+  wifiLocked: 'Lösenordet dyker upp när du har checkat in. Kjell vaktar det så länge.',
+  checkInFirst: 'Checka in först', kjellGuards: 'Kjell sitter på lösenordet. Bokstavligen.', toCheckIn: 'Till incheckning',
+  network: 'Nätverk', password: 'Lösenord', copy: 'Kopiera lösenord', copied: 'Kopierat!', onlyYou: 'Syns bara för dig.',
+  dataLine: 'Kort och tydligt, utan finstilt. Så här tar jag hand om dina uppgifter.',
+  promise: 'Hildurs säkerhetslöfte',
+  p1: 'Dina uppgifter lagras inom EU och raderas 30 dagar efter utcheckning.',
+  p2: 'Bara personal som behöver det kan se din bokning.',
+  p3: 'Varje ändring av priser och bokningar loggas.',
+  p4: 'Lösenord läses aldrig upp högt.',
+  kjellName: 'Kjell, hotellkatten', kjellRole: 'Roll: Maskot – inga adminrättigheter',
+  dataBtn: 'Ladda ner / radera mina data', yourData: 'Dina data',
+  download: 'Ladda ner', downloadSub: 'Skickas till {email}', del: 'Radera mina data', delConfirm: 'Säker? Tryck igen för att radera', deleteSub: 'Kan inte ångras', close: 'Stäng',
+  toastDownload: 'En fil är på väg till din mejl.', toastDelete: 'Radering begärd. Klart inom 24 timmar.', toastSoon: 'Fler språk kommer snart.',
+  coLine: 'Tack för att du bodde hos oss, {name}! Kjell säger hej då. (Han låtsas att han inte bryr sig.)',
+  byeLine: 'Trevlig resa! Jag lämnar lampan tänd – ifall norrskenet vill säga hej då också.',
+  yourStay: 'Din vistelse', nights: 'Nätter', roomK: 'Rum', saunaK: 'Bastu', bfK: 'Frukost', repK: 'Ärenden', itemsWord: 'saker',
+  howWas: 'Hur var vistelsen?', r1: 'Aj. Vi gör bättre nästa gång.', r2: 'Tack för ärligheten.', r3: 'Helt okej – vi siktar högre.', r4: 'Vad glad jag blir!', r5: 'Tack! Det värmer mer än bastun.',
+  checkoutBtn: 'Checka ut', checkedOutTitle: 'Utcheckad', checkedOutText: 'Nyckeln avaktiveras och dina data raderas om 30 dagar. Välkommen tillbaka!', restart: 'Börja om (demo)',
+  rhymeTag: '♪ Bara en gång',
+  rhyme: 'Tre små knack på min mössa – okej:\nBastun är varm och sjön ligger blank,\nKjell sover gott på sin favoritbänk.\nNu är jag tyst, för rimmen tog slut –\nHildur 4.0 kör prosa, punkt slut.',
+  nope: 'Nej då, ett rim räcker. Jag är 4.0 nu.',
+  staffTitle: 'Personalvy · fre 2 okt', signedIn: 'Inloggad: Lisa B. (reception)', guestView: 'Gästvy',
+  staffSauna: 'Dagens bastubokningar', staffReports: 'Problemrapporter', staffLog: 'Aktivitetslogg', tapStatus: 'Tryck för att ändra status',
+  annaNote: 'inkl. {guest}', places: 'platser bokade',
+  sReceived: 'Mottaget', sProgress: 'Pågår', sFixed: 'Åtgärdat',
+  logout: 'Logga ut', tabGuest: 'Gäst', tabStaff: 'Personal',
+  gTitle: 'Hej! Vem har vi här?', gSub: 'Logga in med ditt bokningsnummer. Det står i bekräftelsemejlet.',
+  sTitle: 'Personalinloggning', sSub: 'Endast för hotellets personal. Allt du gör loggas.',
+  fBooking: 'Bokningsnummer', fLast: 'Efternamn', fStaffId: 'Användarnamn', fPin: 'PIN-kod',
+  gBtn: 'Logga in som gäst', sBtn: 'Logga in som personal',
+  errGuest: 'Hittar ingen bokning. Kolla numret i mejlet.', errStaff: 'Fel användarnamn eller PIN.',
+  demo: 'Demo: fyll i testuppgifter', loginNote: 'Gäster ser bara sin egen bokning. Personal ser bara det de behöver.',
+  logIn: 'Loggade in', logOut: 'Loggade ut'
+};
+const EN = {
+  hello: "Welcome, {name}! I'm Hildur. I give real answers this time – no rhymes. (Almost.)",
+  helloIn: "You're checked in! The room is warm and Kjell has promised not to sit on the pillow.",
+  room: 'Room', roomType: 'Mountain view', stay: 'Stay', dates: 'Oct 2–5', nightsLabel: '3 nights',
+  checkIn: 'Check in', checkedInLabel: 'Checked in', loadingCheckIn: 'Kjell is fetching your key …', kjellNote: "He's fast when he wants to be.",
+  menuTitle: 'What do you need?',
+  mSauna: 'Sauna', mBreakfast: 'Breakfast', mReport: 'Report a problem', mAurora: 'Northern lights', mWifi: 'Wi-Fi', mData: 'My data',
+  sSauna: 'Book a time', sSaunaBooked: 'Booked {t}', sBreakfast: 'Room or dining room', sBreakfastDone: 'Ordered for {t}',
+  sReport: "We'll fix it", sReportDone: 'Case #214 sent', sAurora: 'Tonight: Low', sAuroraOn: 'Alerts on', sWifiLocked: 'After check-in', sWifi: 'Show password', sData: "Hildur's promise",
+  checkout: 'Check out', checkoutSub: 'Summary and a goodbye', staffLink: 'Staff view',
+  saunaLine: 'Wood-fired, 80 degrees, lake view. Pick a time – towel included.',
+  saunaCancelled: 'Cancelled! The seat goes to the next frozen guest.',
+  saunaDoneLine: "Done! Arrive five minutes early to shower. The sauna won't wait, but it forgives.",
+  saunaBanner: "You're booked: {t}", view: 'View', today: 'Today, Friday Oct 2', saunaPlace: 'Sauna cabin by the lake',
+  left: '{n} of 8 left', full: 'Full – 8 of 8', yours: 'Your time', booked: 'Booked', bring: 'Bring swimwear. Towels provided.',
+  cancelBooking: 'Cancel booking', backHome: 'Back to home',
+  bfLine: "Breakfast is served 07–10. Tick what you'd like and I'll handle the rest.",
+  bfDoneLine: 'Ordered! The coffee will be hot when you wake up. Promise.',
+  menu: 'Menu', where: 'Where would you like to eat?', time: 'Time tomorrow', room2: 'Room delivery', dining: 'Dining room',
+  orderBf: 'Order breakfast', pickOne: 'Pick at least one item', yourOrder: 'Your order', when: 'When', whereShort: 'Where', tomorrow: 'Tomorrow', edit: 'Edit order',
+  items: { rye: 'Rye bread with butter and cheese', salmon: 'Cured salmon with mustard sauce', fil: 'Soured milk with lingonberries', egg: 'Boiled egg', waffle: 'Waffles with cloudberry jam', coffee: 'Coffee', tea: 'Tea', juice: 'Apple juice' },
+  repLine: "Something not working? Tell me briefly and I'll send it straight to the staff.",
+  repDoneLine: "Thanks! The staff have your report. I'll keep an eye on it.",
+  category: 'Category', cRoom: 'Room', cWifi: 'Wi-Fi', cSauna: 'Sauna', cOther: 'Other',
+  whatHappened: 'What happened?', placeholder: 'E.g. the radiator is cold', addPhoto: 'Add photo (optional)', send: 'Send',
+  caseNo: 'Case #214', st0: 'Received – staff notified', st1: 'Lisa is on her way', st2: 'Fixed', pending: 'Pending', reportAnother: 'Report something else',
+  auroraLine: "I'll keep watch. If the sky lights up, I'll knock – digitally.",
+  notify: 'Notify me', notifyOff: 'Alert when chances are high, 18–02', notifyOn: "On – I'll let you know!",
+  chanceTonight: 'Chance tonight', low: 'Low', cloudy: 'cloudy',
+  chanceText: "Chance tonight: Low – cloudy. We won't wake you for rain.",
+  fKp: 'Forecast', fKpV: 'Kp 2 · weak', fCloud: 'Clouds', fDark: 'Dark',
+  spot: 'Best spot: the jetty, two minutes from the sauna.',
+  wifiLine: "Here's the network. The password is shown only here, and only to you.",
+  wifiLocked: "The password appears once you've checked in. Kjell is guarding it until then.",
+  checkInFirst: 'Check in first', kjellGuards: 'Kjell is sitting on the password. Literally.', toCheckIn: 'Go to check-in',
+  network: 'Network', password: 'Password', copy: 'Copy password', copied: 'Copied!', onlyYou: 'Only visible to you.',
+  dataLine: 'Short and clear, no fine print. This is how I look after your data.',
+  promise: "Hildur's safety promise",
+  p1: 'Your data is stored in the EU and deleted 30 days after check-out.',
+  p2: 'Only staff who need it can see your booking.',
+  p3: 'Every change to prices and bookings is logged.',
+  p4: 'Passwords are never read out loud.',
+  kjellName: 'Kjell, the hotel cat', kjellRole: 'Role: Mascot – no admin rights',
+  dataBtn: 'Download / delete my data', yourData: 'Your data',
+  download: 'Download', downloadSub: 'Sent to {email}', del: 'Delete my data', delConfirm: 'Sure? Tap again to delete', deleteSub: 'Cannot be undone', close: 'Close',
+  toastDownload: 'A file is on its way to your inbox.', toastDelete: 'Deletion requested. Done within 24 hours.', toastSoon: 'More languages coming soon.',
+  coLine: 'Thanks for staying with us, {name}! Kjell says goodbye. (He pretends not to care.)',
+  byeLine: "Safe travels! I'll leave the light on – in case the aurora wants to say goodbye too.",
+  yourStay: 'Your stay', nights: 'Nights', roomK: 'Room', saunaK: 'Sauna', bfK: 'Breakfast', repK: 'Reports', itemsWord: 'items',
+  howWas: 'How was your stay?', r1: "Ouch. We'll do better next time.", r2: 'Thanks for being honest.', r3: "Pretty good – we'll aim higher.", r4: 'That makes me happy!', r5: "Thanks! That's warmer than the sauna.",
+  checkoutBtn: 'Check out', checkedOutTitle: 'Checked out', checkedOutText: 'Your key is deactivated and your data will be deleted in 30 days. Come back soon!', restart: 'Start over (demo)',
+  rhymeTag: '♪ Just this once',
+  rhyme: "Three taps on my hat, so here's one rhyme:\nThe sauna is hot, the coffee's on time,\nKjell's fast asleep, the stars are in line –\nnow back to plain prose. That was the last time.",
+  nope: "Nope, one rhyme is enough. I'm 4.0 now.",
+  staffTitle: 'Staff view · Fri Oct 2', signedIn: 'Signed in: Lisa B. (front desk)', guestView: 'Guest view',
+  staffSauna: "Today's sauna bookings", staffReports: 'Problem reports', staffLog: 'Activity log', tapStatus: 'Tap to change status',
+  annaNote: 'incl. {guest}', places: 'seats booked',
+  sReceived: 'Received', sProgress: 'In progress', sFixed: 'Fixed',
+  logout: 'Log out', tabGuest: 'Guest', tabStaff: 'Staff',
+  gTitle: 'Hi! Who do we have here?', gSub: "Log in with your booking number. It's in your confirmation email.",
+  sTitle: 'Staff login', sSub: 'Hotel staff only. Everything you do is logged.',
+  fBooking: 'Booking number', fLast: 'Last name', fStaffId: 'Username', fPin: 'PIN',
+  gBtn: 'Log in as guest', sBtn: 'Log in as staff',
+  errGuest: "Can't find that booking. Check the number in your email.", errStaff: 'Wrong username or PIN.',
+  demo: 'Demo: fill in test details', loginNote: 'Guests only see their own booking. Staff only see what they need.',
+  logIn: 'Logged in', logOut: 'Logged out'
+};
+const fmt = (s, o) => s.replace(/\{(\w+)\}/g, (m, k) => o[k] ?? m);
+const BOOKINGS = { 'HX-4821': { first: 'Anna', last: 'Lind', room: '12', email: 'anna.lind@mail.se' }, 'HX-5530': { first: 'Erik', last: 'Berg', room: '7', email: 'erik.berg@mail.se' }, 'HX-6102': { first: 'Sam', last: 'Smith', room: '4', email: 'sam.smith@mail.com' } };
+const DEMO = ['HX-4821', 'HX-5530', 'HX-6102'];
+const now = () => { const d = new Date(); return String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0'); };
+const SLOTS = [['06:00',5],['07:00',8],['08:00',2],['12:00',4],['17:00',7],['18:00',8],['19:00',4],['20:00',0],['21:00',6]];
+const BF = ['rye','salmon','fil','egg','waffle','coffee','tea','juice'];
+const TIMES = ['07:00','07:30','08:00','08:30','09:00','09:30'];
+const CATS = [['room','cRoom','bed'],['wifi','cWifi','wifi_off'],['sauna','cSauna','hot_tub'],['other','cOther','help']];
+const STATUS_STYLE = [['#ECE6F5','#5A3B88'],['#F1E4D3','#7A4A2A'],['#E3F3EC','#1F5A47']];
+
+class Component extends DCLogic {
+  state = {
+    screen: 'welcome', view: this.props.startView ?? 'login', guest: BOOKINGS['HX-4821'], demoIdx: 0, loginTab: 'guest', gBooking: '', gLast: '', sUser: '', sPin: '', loginErr: null, lang: this.props.defaultLang ?? 'sv', langMenu: false,
+    checkedIn: this.props.startCheckedIn ?? false, loading: false,
+    slots: SLOTS.map(([t, b]) => ({ t, b })), sauna: null, cancelled: false,
+    bf: { coffee: true }, bfMode: 'room', bfTime: '08:00', bfOrder: null,
+    cat: 'room', text: '', photo: false, report: null,
+    notify: false, copied: false, sheet: false, delArm: false, toast: null,
+    rating: 0, checkedOut: false, taps: 0, rhymed: false, rhyme: null,
+    reports: [
+      { id: 211, cat: 'wifi', room: '4', sv: 'Långsamt nät på rummet.', en: 'Slow internet in the room.', status: 2 },
+      { id: 212, cat: 'sauna', room: '–', sv: 'Termometern visar 40 grader, känns som 90.', en: 'Thermometer says 40 degrees, feels like 90.', status: 1 },
+      { id: 213, cat: 'room', room: '7', sv: 'Kranen droppar.', en: 'The tap is dripping.', status: 0 }
+    ],
+    log: [
+      { time: '09:30', who: 'Hildur', sv: 'Skickade ärende #213 till Lisa B.', en: 'Sent case #213 to Lisa B.' },
+      { time: '09:05', who: 'Erik N.', sv: 'Avbokade bastu 06:00 för rum 3', en: 'Cancelled sauna 06:00 for room 3' },
+      { time: '08:40', who: 'System', sv: 'Bastu 07:00 fullbokad', en: 'Sauna 07:00 fully booked' },
+      { time: '08:12', who: 'Lisa B.', sv: 'Ändrade frukostpris: 165 → 175 kr', en: 'Changed breakfast price: 165 → 175 SEK' }
+    ]
+  };
+  gTag() { const g = this.state.guest; return `${g.first} ${g.last[0]}. (${g.room})`; }
+  addLog(who, sv, en) { this.setState(s => ({ log: [{ time: now(), who, sv, en }, ...s.log] })); }
+  toastMsg(msg) { clearTimeout(this._tt); this.setState({ toast: msg }); this._tt = setTimeout(() => this.setState({ toast: null }), 2600); }
+  go(screen, extra) { this.setState({ screen, view: 'guest', rhyme: null, cancelled: false, langMenu: false, sheet: false, delArm: false, ...extra }); window.scrollTo(0, 0); }
+  componentWillUnmount() { clearTimeout(this._tt); clearTimeout(this._rt); clearTimeout(this._tap); clearTimeout(this._ld); }
+
+  renderVals() {
+    const s = this.state, L = s.lang, g = s.guest, vars = { name: g.first, email: g.email, guest: this.gTag() };
+    const base = L === 'en' ? EN : SV, t = Object.fromEntries(Object.entries(base).map(([k, v]) => [k, typeof v === 'string' ? fmt(v, vars) : v]));
+    const is = { welcome: false, sauna: false, saunaDone: false, breakfast: false, bfDone: false, report: false, reportDone: false, aurora: false, wifi: false, data: false, checkout: false };
+    if (!s.loading) is[s.screen] = true;
+    const sauna = s.sauna != null ? s.slots[s.sauna] : null;
+
+    const lines = {
+      welcome: s.checkedIn ? t.helloIn : t.hello,
+      sauna: s.cancelled ? t.saunaCancelled : t.saunaLine, saunaDone: t.saunaDoneLine,
+      breakfast: t.bfLine, bfDone: t.bfDoneLine, report: t.repLine, reportDone: t.repDoneLine,
+      aurora: t.auroraLine, wifi: s.checkedIn ? t.wifiLine : t.wifiLocked, data: t.dataLine,
+      checkout: s.checkedOut ? t.byeLine : t.coLine
+    };
+    let line = s.loading ? t.loadingCheckIn : lines[s.screen];
+    if (s.rhyme === 'rhyme') line = t.rhyme; else if (s.rhyme === 'nope') line = t.nope;
+    const titles = { welcome: 'Hildur', sauna: t.mSauna, saunaDone: t.mSauna, breakfast: t.mBreakfast, bfDone: t.mBreakfast, report: t.mReport, reportDone: t.mReport, aurora: t.mAurora, wifi: t.mWifi, data: t.mData, checkout: t.checkout };
+
+    const menu = [
+      { icon: 'hot_tub', label: t.mSauna, sub: sauna ? fmt(t.sSaunaBooked, { t: sauna.t }) : t.sSauna, tint: '#F1E4D3', ink: '#8A5432', go: () => this.go(sauna ? 'saunaDone' : 'sauna') },
+      { icon: 'bakery_dining', label: t.mBreakfast, sub: s.bfOrder ? fmt(t.sBreakfastDone, { t: s.bfOrder.time }) : t.sBreakfast, tint: '#F6EBD6', ink: '#8A6420', go: () => this.go(s.bfOrder ? 'bfDone' : 'breakfast') },
+      { icon: 'build', label: t.mReport, sub: s.report ? t.sReportDone : t.sReport, tint: '#F5E3DE', ink: '#9A3F2F', go: () => this.go(s.report ? 'reportDone' : 'report') },
+      { icon: 'auto_awesome', label: t.mAurora, sub: s.notify ? t.sAuroraOn : t.sAurora, tint: '#E3F3EC', ink: '#2F7D64', go: () => this.go('aurora') },
+      { icon: s.checkedIn ? 'wifi' : 'wifi_lock', label: t.mWifi, sub: s.checkedIn ? t.sWifi : t.sWifiLocked, tint: '#E3E8F3', ink: '#2C3D6E', go: () => this.go('wifi') },
+      { icon: 'shield_person', label: t.mData, sub: t.sData, tint: '#ECE6F5', ink: '#6E4A9E', go: () => this.go('data') }
+    ];
+
+    const slots = s.slots.map((sl, i) => {
+      const left = 8 - sl.b, full = left <= 0, mine = s.sauna === i;
+      return {
+        t: sl.t, full, label: mine ? t.yours : full ? t.full : fmt(t.left, { n: left }),
+        icon: mine ? 'check_circle' : full ? 'block' : 'chevron_right',
+        bg: full ? '#ECEAE5' : mine ? '#E3F3EC' : '#fff', fg: full ? '#8C8F99' : '#1A2442',
+        border: mine ? '#5CB89A' : full ? '#ECEAE5' : '#ECE6DA', cursor: full ? 'not-allowed' : 'pointer',
+        dots: Array.from({ length: 8 }, (_, k) => k < sl.b ? (full ? '#C4C2BC' : '#A86B43') : (full ? '#DAD8D2' : '#E9E1D3')),
+        pick: () => {
+          if (full) return;
+          if (mine) return this.go('saunaDone');
+          this.setState(st => {
+            const ns = st.slots.map((x, k) => ({ ...x, b: x.b + (k === i ? 1 : 0) - (k === st.sauna ? 1 : 0) }));
+            return { slots: ns, sauna: i };
+          });
+          this.addLog(this.gTag(), `Bokade bastu ${sl.t}`, `Booked sauna ${sl.t}`);
+          this.go('saunaDone');
+        }
+      };
+    });
+
+    const bfCount = BF.filter(k => s.bf[k]).length;
+    const bfItems = BF.map(k => ({ label: t.items[k], boxBg: s.bf[k] ? '#2F7D64' : '#fff', boxBorder: s.bf[k] ? '#2F7D64' : '#CFC6B5', checkOpacity: s.bf[k] ? 1 : 0, toggle: () => this.setState(st => ({ bf: { ...st.bf, [k]: !st.bf[k] } })) }));
+    const bfModes = [['room', t.room2, 'room_service'], ['dining', t.dining, 'restaurant']].map(([k, label, icon]) => ({ label, icon, border: s.bfMode === k ? '#A86B43' : '#ECE6DA', bg: s.bfMode === k ? '#FBF5EC' : '#fff', pick: () => this.setState({ bfMode: k }) }));
+    const bfTimes = TIMES.map(x => ({ t: x, border: s.bfTime === x ? '#1A2442' : '#E0D8C9', bg: s.bfTime === x ? '#1A2442' : '#fff', fg: s.bfTime === x ? '#F6F4EF' : '#1A2442', pick: () => this.setState({ bfTime: x }) }));
+    const o = s.bfOrder;
+
+    const cats = CATS.map(([k, lk, icon]) => ({ label: t[lk], icon, border: s.cat === k ? '#A86B43' : '#ECE6DA', bg: s.cat === k ? '#FBF5EC' : '#fff', pick: () => this.setState({ cat: k }) }));
+    const textEmpty = !s.text.trim();
+    const myRep = s.reports.find(r => r.id === 214);
+    const repStatus = myRep ? myRep.status : 0;
+    const steps = [t.st0, t.st1, t.st2].map((label, i) => {
+      const done = i <= repStatus;
+      return { label, time: done ? (i === 0 ? s.report?.time : s.report?.['t' + i] || now()) : t.pending, dot: done ? '#2F7D64' : '#E0D8C9', checkOpacity: done ? 1 : 0, fg: done ? '#1A2442' : '#9A9EAA', lineColor: i === 2 ? 'transparent' : (i < repStatus ? '#2F7D64' : '#E0D8C9') };
+    });
+
+    const ratingTexts = ['', t.r1, t.r2, t.r3, t.r4, t.r5];
+    const statusLabels = [t.sReceived, t.sProgress, t.sFixed];
+    const catLabel = k => t[(CATS.find(c => c[0] === k) || CATS[3])[1]];
+    const catIcon = k => (CATS.find(c => c[0] === k) || CATS[3])[2];
+
+    const langBtn = (code, label, full) => ({ label, full, bg: L === code ? '#1A2442' : 'transparent', fg: L === code ? '#F6F4EF' : '#1A2442', pick: () => this.setState({ lang: code, langMenu: false }) });
+    const totalBooked = s.slots.reduce((a, x) => a + x.b, 0);
+
+    return {
+      t, is, line, isRhyme: !!s.rhyme && !s.loading,
+      isGuest: s.view === 'guest', isStaff: s.view === 'staff', isLogin: s.view === 'login', guestRoom: g.room,
+      loginTitle: s.loginTab === 'guest' ? t.gTitle : t.sTitle, loginSub: s.loginTab === 'guest' ? t.gSub : t.sSub,
+      loginBtn: s.loginTab === 'guest' ? t.gBtn : t.sBtn, demoHint: t.demo, loginNote: t.loginNote,
+      hasLoginErr: !!s.loginErr, loginErr: s.loginErr ? t[s.loginErr] : '',
+      loginTabs: [['guest', t.tabGuest, 'luggage'], ['staff', t.tabStaff, 'badge']].map(([k, label, icon]) => ({ label, icon, bg: s.loginTab === k ? '#fff' : 'transparent', fg: s.loginTab === k ? '#1A2442' : '#6B7182', shadow: s.loginTab === k ? '0 2px 8px -2px rgba(26,36,66,.2)' : 'none', pick: () => this.setState({ loginTab: k, loginErr: null }) })),
+      loginFields: (s.loginTab === 'guest'
+        ? [['gBooking', t.fBooking, 'text', 'HX-4821', 'text'], ['gLast', t.fLast, 'text', 'Lind', 'text']]
+        : [['sUser', t.fStaffId, 'text', 'lisa.b', 'text'], ['sPin', t.fPin, 'password', '••••', 'numeric']]
+      ).map(([k, label, type, placeholder, mode]) => ({ label, type, placeholder, mode, value: s[k], onChange: e => this.setState({ [k]: e.target.value, loginErr: null }) })),
+      fillDemo: () => this.setState(s.loginTab === 'guest' ? { gBooking: DEMO[s.demoIdx], gLast: BOOKINGS[DEMO[s.demoIdx]].last, demoIdx: (s.demoIdx + 1) % DEMO.length, loginErr: null } : { sUser: 'lisa.b', sPin: '2026', loginErr: null }),
+      doLogin: () => {
+        if (s.loginTab === 'guest') {
+          const bk = BOOKINGS[s.gBooking.trim().toUpperCase()];
+          if (!bk || s.gLast.trim().toLowerCase() !== bk.last.toLowerCase()) return this.setState({ loginErr: 'errGuest' });
+          const switching = bk !== s.guest;
+          this.setState({ guest: bk, gBooking: '', gLast: '', loginErr: null, ...(switching ? { checkedIn: false, checkedOut: false, sauna: null, slots: SLOTS.map(([t, b]) => ({ t, b })), bfOrder: null, report: null, text: '', photo: false, rating: 0, notify: false, reports: s.reports.filter(r => r.id !== 214) } : {}) });
+          this.addLog(`${bk.first} ${bk.last[0]}. (${bk.room})`, SV.logIn, EN.logIn); this.go('welcome');
+        } else {
+          if (s.sUser.trim().toLowerCase() !== 'lisa.b' || s.sPin !== '2026') return this.setState({ loginErr: 'errStaff' });
+          this.addLog('Lisa B.', SV.logIn, EN.logIn);
+          this.setState({ view: 'staff', sUser: '', sPin: '', loginErr: null }); window.scrollTo(0, 0);
+        }
+      },
+      logout: () => {
+        const staff = s.view === 'staff';
+        this.addLog(staff ? 'Lisa B.' : this.gTag(), SV.logOut, EN.logOut);
+        this.setState({ view: 'login', loginTab: staff ? 'staff' : 'guest', screen: 'welcome', sheet: false, langMenu: false, rhyme: null }); window.scrollTo(0, 0);
+      },
+      title: titles[s.screen], showVersion: s.screen === 'welcome', showBack: s.screen !== 'welcome',
+      langOpts: [langBtn('sv', 'SV', 'Svenska'), langBtn('en', 'EN', 'English'), { label: '···', full: L === 'en' ? 'More' : 'Fler', bg: s.langMenu ? '#F1E4D3' : 'transparent', fg: '#1A2442', pick: () => this.setState(st => ({ langMenu: !st.langMenu })) }],
+      langMenu: s.langMenu,
+      moreLangs: [['Svenska', 'sv'], ['English', 'en'], ['Suomi'], ['Norsk'], ['Deutsch']].map(([label, code]) => ({ label, note: code ? (L === code ? '✓' : '') : (L === 'en' ? 'soon' : 'snart'), pick: () => code ? this.setState({ lang: code, langMenu: false }) : (this.setState({ langMenu: false }), this.toastMsg(t.toastSoon)) })),
+      tapAvatar: () => {
+        clearTimeout(this._tap);
+        const n = s.taps + 1;
+        if (n >= 3) {
+          this.setState({ taps: 0, rhyme: s.rhymed ? 'nope' : 'rhyme', rhymed: true });
+          clearTimeout(this._rt); this._rt = setTimeout(() => this.setState({ rhyme: null }), s.rhymed ? 3500 : 9000);
+        } else { this.setState({ taps: n }); this._tap = setTimeout(() => this.setState({ taps: 0 }), 900); }
+      },
+      isLoading: s.loading, loadingText: t.loadingCheckIn,
+      checkedIn: s.checkedIn, notCheckedIn: !s.checkedIn,
+      checkIn: () => {
+        this.setState({ loading: true, rhyme: null });
+        this._ld = setTimeout(() => { this.setState({ loading: false, checkedIn: true }); this.addLog(this.gTag(), 'Checkade in', 'Checked in'); }, 1600);
+      },
+      menu, showStaffLink: this.props.showStaffLink ?? true,
+      goHome: () => this.go('welcome'), goCheckout: () => this.go('checkout'), goSaunaDone: () => this.go('saunaDone'), goBreakfast: () => this.go('breakfast'),
+      goStaff: () => { this.setState({ view: 'staff', langMenu: false }); window.scrollTo(0, 0); },
+      hasSauna: !!sauna, saunaBanner: sauna ? fmt(t.saunaBanner, { t: sauna.t }) : '', saunaTime: sauna ? sauna.t : '', slots,
+      cancelSauna: () => {
+        const tm = sauna.t;
+        this.setState(st => ({ slots: st.slots.map((x, k) => k === st.sauna ? { ...x, b: x.b - 1 } : x), sauna: null }));
+        this.addLog(this.gTag(), `Avbokade bastu ${tm}`, `Cancelled sauna ${tm}`);
+        this.go('sauna', { cancelled: true });
+      },
+      bfItems, bfModes, bfTimes, bfEmpty: bfCount === 0,
+      bfBtnLabel: bfCount ? `${t.orderBf} · ${bfCount}` : t.pickOne,
+      bfBtnBg: bfCount ? '#1A2442' : '#E4E0D8', bfBtnFg: bfCount ? '#F6F4EF' : '#8C8F99', bfCursor: bfCount ? 'pointer' : 'not-allowed',
+      orderBf: () => {
+        if (!bfCount) return;
+        this.setState({ bfOrder: { items: BF.filter(k => s.bf[k]), mode: s.bfMode, time: s.bfTime } });
+        this.addLog(this.gTag(), `Beställde frukost till ${s.bfTime} (${bfCount} st)`, `Ordered breakfast for ${s.bfTime} (${bfCount} items)`);
+        this.go('bfDone');
+      },
+      bfWhen: o ? `${t.tomorrow} ${o.time}` : '', bfWhere: o ? (o.mode === 'room' ? t.room2 : t.dining) : '', bfSummary: o ? o.items.map(k => t.items[k]) : [],
+      cats, text: s.text, onText: e => this.setState({ text: e.target.value }), photo: s.photo, noPhoto: !s.photo, togglePhoto: () => this.setState(st => ({ photo: !st.photo })),
+      textEmpty, sendBg: textEmpty ? '#E4E0D8' : '#1A2442', sendFg: textEmpty ? '#8C8F99' : '#F6F4EF', sendCursor: textEmpty ? 'not-allowed' : 'pointer',
+      sendReport: () => {
+        if (textEmpty) return;
+        const txt = s.text.trim();
+        this.setState(st => ({ report: { cat: st.cat, text: txt, time: now() }, reports: [{ id: 214, cat: st.cat, room: g.room, sv: txt, en: txt, status: 0 }, ...st.reports.filter(r => r.id !== 214)] }));
+        this.addLog('Hildur', `Tog emot ärende #214 från rum ${g.room}, meddelade personalen`, `Received case #214 from room ${g.room}, notified staff`);
+        clearTimeout(this._rp);
+        this._rp = setTimeout(() => {
+          this.setState(st => ({ report: st.report && { ...st.report, t1: now() }, reports: st.reports.map(r => r.id === 214 && r.status === 0 ? { ...r, status: 1 } : r) }));
+          this.addLog('Lisa B.', 'Ändrade #214 till Pågår', 'Changed #214 to In progress');
+        }, 6000);
+        this.go('reportDone');
+      },
+      reportCat: s.report ? catLabel(s.report.cat) : '', reportText: s.report ? s.report.text : '', steps,
+      newReport: () => this.go('report', { text: '', photo: false }),
+      notify: s.notify, notifySub: s.notify ? t.notifyOn : t.notifyOff, notifyIcon: s.notify ? 'notifications_active' : 'notifications_off',
+      trackBg: s.notify ? '#5CB89A' : '#D6D2C9', knobX: s.notify ? '24px' : '0px',
+      toggleNotify: () => this.setState(st => ({ notify: !st.notify })),
+      forecast: [{ icon: 'auto_awesome', k: t.fKp, v: t.fKpV }, { icon: 'cloud', k: t.fCloud, v: '85 %' }, { icon: 'dark_mode', k: t.fDark, v: '19:40–06:10' }],
+      copyLabel: s.copied ? t.copied : t.copy, copyIcon: s.copied ? 'check' : 'content_copy', copyBg: s.copied ? '#E3F3EC' : '#1A2442', copyFg: s.copied ? '#1F5A47' : '#F6F4EF',
+      copyPw: () => { try { navigator.clipboard.writeText('Norrsken-Kjell-12'); } catch (e) {} this.setState({ copied: true }); setTimeout(() => this.setState({ copied: false }), 2000); },
+      promises: [{ icon: 'public', text: t.p1 }, { icon: 'group', text: t.p2 }, { icon: 'history', text: t.p3 }, { icon: 'volume_off', text: t.p4 }],
+      sheetOpen: s.sheet, openSheet: () => this.setState({ sheet: true, delArm: false }), closeSheet: () => this.setState({ sheet: false, delArm: false }),
+      downloadData: () => { this.setState({ sheet: false }); this.toastMsg(t.toastDownload); this.addLog(this.gTag(), 'Begärde export av sina data', 'Requested data export'); },
+      deleteData: () => {
+        if (!s.delArm) return this.setState({ delArm: true });
+        this.setState({ sheet: false, delArm: false }); this.toastMsg(t.toastDelete); this.addLog(this.gTag(), 'Begärde radering av sina data', 'Requested data deletion');
+      },
+      delLabel: s.delArm ? t.delConfirm : t.del, delBg: s.delArm ? '#FBEDEA' : '#fff', delBorder: s.delArm ? '#E3C9C2' : '#ECE6DA',
+      hasToast: !!s.toast, toast: s.toast,
+      summary: [
+        { k: t.nights, v: '3' }, { k: t.roomK, v: g.room }, { k: t.saunaK, v: sauna ? sauna.t : '–' },
+        { k: t.bfK, v: o ? `${o.items.length} ${t.itemsWord} · ${o.time}` : '–' },
+        { k: t.repK, v: s.report ? `#214 · ${statusLabels[repStatus]}` : '–' }
+      ],
+      stars: [1, 2, 3, 4, 5].map(n => ({ n, color: n <= s.rating ? '#D9A23F' : '#E4DED2', pick: () => this.setState({ rating: n }) })),
+      ratingText: ratingTexts[s.rating],
+      notCheckedOut: !s.checkedOut, checkedOut: s.checkedOut,
+      doCheckout: () => { this.setState({ checkedOut: true }); this.addLog(this.gTag(), `Checkade ut${s.rating ? `, betyg ${s.rating}/5` : ''}`, `Checked out${s.rating ? `, rated ${s.rating}/5` : ''}`); window.scrollTo(0, 0); },
+      restart: () => { clearTimeout(this._rp); this.setState({ checkedIn: false, checkedOut: false, sauna: null, slots: SLOTS.map(([t, b]) => ({ t, b })), bfOrder: null, report: null, text: '', photo: false, rating: 0, notify: false, reports: this.state.reports.filter(r => r.id !== 214) }); this.go('welcome'); },
+      staffLangs: [['sv', 'SV'], ['en', 'EN']].map(([code, label]) => ({ label, bg: L === code ? '#F6F4EF' : 'transparent', fg: L === code ? '#1A2442' : '#F6F4EF', pick: () => this.setState({ lang: code }) })),
+      saunaTotal: `${totalBooked} / ${s.slots.length * 8} ${t.places}`,
+      staffSlots: s.slots.map((x, i) => ({ t: x.t, pct: (x.b / 8 * 100) + '%', color: x.b >= 8 ? '#A86B43' : '#5CB89A', count: `${x.b}/8`, countColor: x.b >= 8 ? '#8A5432' : '#1A2442', mine: s.sauna === i, note: t.annaNote })),
+      staffReports: s.reports.map(r => ({
+        icon: catIcon(r.cat), meta: `#${r.id} · ${catLabel(r.cat)} · ${t.roomK} ${r.room}`, text: r[L],
+        status: statusLabels[r.status], bg: STATUS_STYLE[r.status][0], fg: STATUS_STYLE[r.status][1],
+        cycle: () => {
+          const ns = (r.status + 1) % 3;
+          this.setState(st => ({ reports: st.reports.map(x => x.id === r.id ? { ...x, status: ns } : x), report: r.id === 214 && st.report ? { ...st.report, ['t' + ns]: now() } : st.report }));
+          this.addLog('Lisa B.', `Ändrade #${r.id} till ${SV['s' + ['Received', 'Progress', 'Fixed'][ns]]}`, `Changed #${r.id} to ${EN['s' + ['Received', 'Progress', 'Fixed'][ns]]}`);
+        }
+      })),
+      log: s.log.map(e => ({ time: e.time, who: e.who, what: e[L] }))
+    };
+  }
+}
+</script>
+</body>
+</html>
